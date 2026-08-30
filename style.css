@@ -260,3 +260,7 @@
   color: var(--chili);
   font-weight: 700;
 }
+.nav-links a[href="dang-ky.html"]{
+  color: var(--turmeric);
+  font-weight: 700;
+}

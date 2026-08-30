@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng nhập / Đăng ký — Quán Cô Sáu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Định nghĩa lại biến màu ngay trong trang này,
+     để trang vẫn hiển thị đúng màu dù style.css lỗi hoặc chưa load kịp */
+  :root{
+    --night: #0F3D3E;
+    --night-deep: #0A2C2D;
+    --rice: #FAF6EA;
+    --turmeric: #E8A33D;
+    --chili: #C1440E;
+    --charcoal: #241F1B;
+  }
+  html,body{
+    background:var(--night-deep);
+    margin:0;
+  }
+
+  /* ---------- Trang đăng nhập / đăng ký ---------- */
+  .auth-page{
+    min-height:100vh;
+    display:flex;flex-direction:column;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(232,163,61,0.28), transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(193,68,14,0.22), transparent 40%),
+      linear-gradient(180deg, var(--night) 0%, var(--night-deep) 100%);
+  }
+  .auth-top{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 28px;
+  }
+  .auth-back{
+    display:flex;align-items:center;gap:8px;
+    color:var(--rice);font-size:14px;font-weight:600;
+    opacity:0.95;
+  }
+  .auth-back:hover{opacity:1;}
+  .lang-switch{
+    display:flex;border:1.5px solid rgba(250,246,234,0.4);
+    border-radius:20px;overflow:hidden;
+  }
+  .lang-switch button{
+    background:none;border:none;color:rgba(250,246,234,0.8);
+    font-size:13px;font-weight:700;padding:7px 16px;cursor:pointer;
+    font-family:'Be Vietnam Pro',sans-serif;transition:background .2s ease,color .2s ease;
+  }
+  .lang-switch button.active{background:var(--turmeric);color:var(--night-deep);}
+
+  .auth-wrap{
+    flex:1;display:flex;align-items:center;justify-content:center;
+    padding:24px 20px 60px;
+  }
+  .auth-card{
+    width:100%;max-width:420px;
+    background:#16302f;
+    border:1px solid rgba(232,163,61,0.35);
+    border-radius:10px;
+    padding:36px 32px 32px;
+    position:relative;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+  }
+  .auth-card:before{
+    content:"";position:absolute;top:-13px;left:32px;
+    background:var(--chili);color:var(--rice);
+    font-size:11.5px;font-weight:700;letter-spacing:1.5px;
+    padding:5px 12px;border-radius:3px;
+  }
+  .auth-eyebrow{
+    font-family:'Kalam',cursive;color:var(--turmeric);font-size:15px;
+    display:flex;align-items:center;gap:8px;margin-bottom:6px;
+  }
+  .auth-eyebrow:before{content:"";width:20px;height:1px;background:var(--turmeric);display:inline-block;}
+  .auth-title{
+    font-family:'Playfair Display',serif;font-weight:800;font-size:26px;
+    color:var(--rice);margin-bottom:26px;
+  }
+
+  .auth-tabs{
+    display:flex;background:rgba(250,246,234,0.06);
+    border-radius:8px;padding:4px;margin-bottom:26px;
+  }
+  .auth-tab{
+    flex:1;text-align:center;padding:10px 0;border-radius:6px;
+    font-size:14px;font-weight:700;color:rgba(250,246,234,0.78);
+    cursor:pointer;transition:background .2s ease,color .2s ease;
+    font-family:'Be Vietnam Pro',sans-serif;
+  }
+  .auth-tab.active{background:var(--turmeric);color:var(--night-deep);}
+
+  .auth-form{display:none;flex-direction:column;gap:16px;}
+  .auth-form.active{display:flex;}
+
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field label{
+    font-size:12.5px;font-weight:700;color:rgba(250,246,234,0.88);
+    letter-spacing:0.3px;
+  }
+  .field input{
+    background:rgba(250,246,234,0.09);
+    border:1.5px solid rgba(250,246,234,0.22);
+    border-radius:6px;padding:12px 14px;
+    color:var(--rice);font-size:14.5px;
+    font-family:'Be Vietnam Pro',sans-serif;
+    outline:none;transition:border-color .2s ease, background .2s ease;
+  }
+  .field input::placeholder{color:rgba(250,246,234,0.5);}
+  .field input:focus{
+    border-color:var(--turmeric);
+    background:rgba(250,246,234,0.12);
+  }
+
+  .field-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+  .remember{display:flex;align-items:center;gap:7px;color:rgba(250,246,234,0.82);}
+  .remember input{accent-color:var(--turmeric);}
+  .forgot-link{color:var(--turmeric);font-weight:600;}
+  .forgot-link:hover{text-decoration:underline;}
+
+  .auth-submit{
+    margin-top:6px;padding:13px 0;border-radius:6px;border:none;
+    background:var(--turmeric);color:var(--night-deep);
+    font-weight:700;font-size:15px;cursor:pointer;
+    font-family:'Be Vietnam Pro',sans-serif;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .auth-submit:hover{transform:translateY(-1px);background:#f0b558;}
+
+  .auth-divider{
+    display:flex;align-items:center;gap:12px;margin:22px 0 18px;
+    color:rgba(250,246,234,0.55);font-size:12.5px;
+  }
+  .auth-divider:before,.auth-divider:after{
+    content:"";flex:1;height:1px;background:rgba(250,246,234,0.2);
+  }
+
+  .auth-alt{
+    text-align:center;font-size:13.5px;color:rgba(250,246,234,0.78);
+  }
+  .auth-alt a{color:var(--turmeric);font-weight:700;}
+  .auth-alt a:hover{text-decoration:underline;}
+
+  .terms{
+    font-size:12px;color:rgba(250,246,234,0.62);line-height:1.5;
+    margin-top:2px;
+  }
+  .terms a{color:var(--turmeric);font-weight:600;}
+
+  @media(max-width:480px){
+    .auth-card{padding:28px 22px 26px;}
+    .auth-title{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="auth-page">
+  <div class="auth-top">
+    <a href="index.html" class="auth-back" data-i18n="back">← Về trang chủ</a>
+    <div class="lang-switch">
+      <button type="button" class="active" data-lang-btn="vi">VI</button>
+      <button type="button" data-lang-btn="en">EN</button>
+    </div>
+  </div>
+
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-eyebrow" data-i18n="eyebrow">Quán Cô Sáu</div>
+      <h1 class="auth-title" data-i18n="title">Chào bạn quay lại</h1>
+
+      <div class="auth-tabs">
+        <div class="auth-tab active" data-tab="login" data-i18n="tabLogin">Đăng nhập</div>
+        <div class="auth-tab" data-tab="register" data-i18n="tabRegister">Đăng ký</div>
+      </div>
+
+      <!-- FORM ĐĂNG NHẬP -->
+      <form class="auth-form active" id="form-login" data-form="login">
+        <div class="field">
+          <label data-i18n="labelEmailOrPhone">Email hoặc số điện thoại</label>
+          <input type="text" placeholder="vd: 0900 000 000" data-i18n-placeholder="phEmailOrPhone" required>
+        </div>
+        <div class="field">
+          <label data-i18n="labelPassword">Mật khẩu</label>
+          <input type="password" placeholder="Nhập mật khẩu" data-i18n-placeholder="phPassword" required>
+        </div>
+        <div class="field-row">
+          <label class="remember">
+            <input type="checkbox">
+            <span data-i18n="remember">Ghi nhớ đăng nhập</span>
+          </label>
+          <a href="#" class="forgot-link" data-i18n="forgot">Quên mật khẩu?</a>
+        </div>
+        <button type="submit" class="auth-submit" data-i18n="btnLogin">Đăng nhập</button>
+      </form>
+
+      <!-- FORM ĐĂNG KÝ -->
+      <form class="auth-form" id="form-register" data-form="register">
+        <div class="field">
+          <label data-i18n="labelName">Họ và tên</label>
+          <input type="text" placeholder="Nguyễn Văn A" data-i18n-placeholder="phName" required>
+        </div>
+        <div class="field">
+          <label data-i18n="labelPhone">Số điện thoại</label>
+          <input type="tel" placeholder="0900 000 000" data-i18n-placeholder="phPhone" required>
+        </div>
+        <div class="field">
+          <label data-i18n="labelEmail">Email</label>
+          <input type="email" placeholder="ban@email.com" data-i18n-placeholder="phEmail" required>
+        </div>
+        <div class="field">
+          <label data-i18n="labelPassword">Mật khẩu</label>
+          <input type="password" placeholder="Tối thiểu 6 ký tự" data-i18n-placeholder="phPasswordNew" required>
+        </div>
+        <div class="field">
+          <label data-i18n="labelConfirm">Nhập lại mật khẩu</label>
+          <input type="password" placeholder="Nhập lại mật khẩu" data-i18n-placeholder="phConfirm" required>
+        </div>
+        <p class="terms" data-i18n="terms">Bằng việc đăng ký, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a> của quán.</p>
+        <button type="submit" class="auth-submit" data-i18n="btnRegister">Tạo tài khoản</button>
+      </form>
+
+      <div class="auth-divider" data-i18n="orDivider">hoặc</div>
+      <p class="auth-alt" id="alt-text" data-i18n="altLoginPrompt">
+        Chưa có tài khoản? <a href="#" id="switch-link" data-i18n="altLoginLink">Đăng ký ngay</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- Chuyển tab Đăng nhập / Đăng ký ----------
+  const tabs = document.querySelectorAll('.auth-tab');
+  const forms = document.querySelectorAll('.auth-form');
+  const altText = document.getElementById('alt-text');
+  const switchLink = document.getElementById('switch-link');
+
+  function setActiveTab(name){
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    forms.forEach(f => f.classList.toggle('active', f.dataset.form === name));
+    updateAltPrompt(name);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => setActiveTab(tab.dataset.tab));
+  });
+
+  switchLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const current = document.querySelector('.auth-tab.active').dataset.tab;
+    setActiveTab(current === 'login' ? 'register' : 'login');
+  });
+
+  function updateAltPrompt(name){
+    const t = translations[currentLang];
+    if(name === 'login'){
+      altText.childNodes[0].textContent = t.altRegisterPrompt + ' ';
+      switchLink.textContent = t.altRegisterLink;
+    } else {
+      altText.childNodes[0].textContent = t.altLoginPrompt + ' ';
+      switchLink.textContent = t.altLoginLink;
+    }
+  }
+
+  // Chặn submit thật (đây là bản giao diện demo, chưa nối máy chủ)
+  document.querySelectorAll('form').forEach(f=>{
+    f.addEventListener('submit', e=>{
+      e.preventDefault();
+      alert(currentLang === 'vi'
+        ? 'Đây là giao diện demo — chưa kết nối máy chủ để lưu tài khoản.'
+        : 'This is a demo interface — not yet connected to a server.');
+    });
+  });
+
+  // ---------- Chuyển ngôn ngữ VI / EN ----------
+  const translations = {
+    vi: {
+      back:"← Về trang chủ",
+      eyebrow:"Quán Cô Sáu",
+      title:"Chào bạn quay lại",
+      tabLogin:"Đăng nhập",
+      tabRegister:"Đăng ký",
+      labelEmailOrPhone:"Email hoặc số điện thoại",
+      phEmailOrPhone:"vd: 0900 000 000",
+      labelPassword:"Mật khẩu",
+      phPassword:"Nhập mật khẩu",
+      remember:"Ghi nhớ đăng nhập",
+      forgot:"Quên mật khẩu?",
+      btnLogin:"Đăng nhập",
+      labelName:"Họ và tên",
+      phName:"Nguyễn Văn A",
+      labelPhone:"Số điện thoại",
+      phPhone:"0900 000 000",
+      labelEmail:"Email",
+      phEmail:"ban@email.com",
+      phPasswordNew:"Tối thiểu 6 ký tự",
+      labelConfirm:"Nhập lại mật khẩu",
+      phConfirm:"Nhập lại mật khẩu",
+      terms:'Bằng việc đăng ký, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a> của quán.',
+      btnRegister:"Tạo tài khoản",
+      orDivider:"hoặc",
+      altLoginPrompt:"Chưa có tài khoản?",
+      altLoginLink:"Đăng ký ngay",
+      altRegisterPrompt:"Đã có tài khoản?",
+      altRegisterLink:"Đăng nhập"
+    },
+    en: {
+      back:"← Back to home",
+      eyebrow:"Quán Cô Sáu",
+      title:"Welcome back",
+      tabLogin:"Log in",
+      tabRegister:"Sign up",
+      labelEmailOrPhone:"Email or phone number",
+      phEmailOrPhone:"e.g. 0900 000 000",
+      labelPassword:"Password",
+      phPassword:"Enter your password",
+      remember:"Remember me",
+      forgot:"Forgot password?",
+      btnLogin:"Log in",
+      labelName:"Full name",
+      phName:"John Doe",
+      labelPhone:"Phone number",
+      phPhone:"0900 000 000",
+      labelEmail:"Email",
+      phEmail:"you@email.com",
+      phPasswordNew:"At least 6 characters",
+      labelConfirm:"Confirm password",
+      phConfirm:"Re-enter password",
+      terms:'By signing up, you agree to our <a href="#">Terms of Service</a>.',
+      btnRegister:"Create account",
+      orDivider:"or",
+      altLoginPrompt:"Don't have an account?",
+      altLoginLink:"Sign up",
+      altRegisterPrompt:"Already have an account?",
+      altRegisterLink:"Log in"
+    }
+  };
+
+  let currentLang = 'vi';
+  const langButtons = document.querySelectorAll('[data-lang-btn]');
+
+  function applyLanguage(lang){
+    currentLang = lang;
+    const t = translations[lang];
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(t[key] === undefined) return;
+      if(el.id === 'alt-text'){
+        // giữ nguyên thẻ <a> bên trong, chỉ đổi phần chữ text node đầu
+        el.childNodes[0].textContent = (document.querySelector('.auth-tab.active').dataset.tab === 'login'
+          ? t.altRegisterPrompt : t.altLoginPrompt) + ' ';
+      } else if(el.tagName === 'P' && el.querySelector('a')){
+        el.innerHTML = t[key];
+      } else {
+        el.textContent = t[key];
+      }
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+      const key = el.getAttribute('data-i18n-placeholder');
+      if(t[key] !== undefined) el.placeholder = t[key];
+    });
+
+    switchLink.textContent = document.querySelector('.auth-tab.active').dataset.tab === 'login'
+      ? t.altRegisterLink : t.altLoginLink;
+
+    langButtons.forEach(b => b.classList.toggle('active', b.dataset.langBtn === lang));
+  }
+
+  langButtons.forEach(btn=>{
+    btn.addEventListener('click', ()=> applyLanguage(btn.dataset.langBtn));
+  });
+</script>
+
+</body>
+</html>
