@@ -212,15 +212,43 @@
   }
   .hours-list li strong{font-weight:600;}
   .map-box{
-    border-radius:8px;background:
-      repeating-linear-gradient(45deg, rgba(15,61,62,0.06), rgba(15,61,62,0.06) 10px, transparent 10px, transparent 20px),
-      #E7E1CE;
-    min-height:260px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
-    padding:28px;border:1px solid rgba(36,31,27,0.1);
+    border-radius:8px;
+    border:1px solid rgba(36,31,27,0.1);
+    overflow:hidden;
+    background:var(--rice);
+  }
+  .map-box .map-info{
+    padding:22px 24px 24px;
   }
   .map-box .pin{font-size:26px;margin-bottom:10px;}
   .map-box strong{font-size:16px;display:block;margin-bottom:4px;}
   .map-box span{font-size:13.5px;color:rgba(36,31,27,0.65);}
+  .map-box iframe{display:block;filter:grayscale(0.15) contrast(1.02);}
+
+  /* ---------- Nút Zalo nổi góc màn hình ---------- */
+  .zalo-float{
+    position:fixed;
+    right:20px;bottom:20px;
+    width:56px;height:56px;
+    background:#0068FF;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 26px -8px rgba(0,104,255,0.55);
+    z-index:60;
+    transition:transform .2s ease, box-shadow .2s ease;
+    animation:zaloPulse 2.4s ease-in-out infinite;
+  }
+  .zalo-float:hover{
+    transform:scale(1.08);
+    box-shadow:0 14px 30px -8px rgba(0,104,255,0.65);
+  }
+  @keyframes zaloPulse{
+    0%,100%{box-shadow:0 10px 26px -8px rgba(0,104,255,0.55);}
+    50%{box-shadow:0 10px 30px -4px rgba(0,104,255,0.8);}
+  }
+  @media(max-width:520px){
+    .zalo-float{right:14px;bottom:14px;width:50px;height:50px;}
+  }
 
   /* ---------- Footer ---------- */
   footer{background:var(--charcoal);color:rgba(250,246,234,0.75);padding:56px 0 26px;}
@@ -229,6 +257,12 @@
   .foot-grid p{font-size:13.5px;color:rgba(250,246,234,0.55);}
   .foot-col h4{font-size:13px;letter-spacing:0.5px;color:var(--turmeric);margin-bottom:14px;text-transform:uppercase;}
   .foot-col a{display:block;font-size:14px;margin-bottom:9px;color:rgba(250,246,234,0.72);}
+  .foot-contact-link{display:flex !important;align-items:center;gap:9px;}
+  .foot-contact-link .contact-icon{flex-shrink:0;}
+
+  /* ---------- Icon Zalo / Gmail / Bản đồ cạnh khung địa chỉ ---------- */
+  .contact-line{display:flex;align-items:flex-start;gap:11px;}
+  .contact-line .contact-icon{flex-shrink:0;margin-top:2px;}
   .foot-col a:hover{color:var(--rice);}
   .foot-bottom{
     border-top:1px solid rgba(250,246,234,0.12);padding-top:22px;
