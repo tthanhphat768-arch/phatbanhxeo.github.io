@@ -253,14 +253,51 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    *{transition:none !important;}
+    *{transition:none !important; animation:none !important;}
   }
-/* ---------- Link Đăng nhập / Đăng ký nổi bật trong menu ---------- */
-.nav-links a[href="dang-nhap.html"]{
-  color: var(--chili);
-  font-weight: 700;
-}
-.nav-links a[href="dang-ky.html"]{
-  color: var(--turmeric);
-  font-weight: 700;
-}
+
+  /* ---------- Hiệu ứng cuộn trang: xuất hiện mượt ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .75s cubic-bezier(.2,.65,.3,1), transform .75s cubic-bezier(.2,.65,.3,1);
+  }
+  .reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+  /* so le thời gian xuất hiện cho các thẻ trong lưới */
+  .dish-grid .reveal:nth-child(2){transition-delay:.08s;}
+  .dish-grid .reveal:nth-child(3){transition-delay:.16s;}
+  .dish-grid .reveal:nth-child(4){transition-delay:.24s;}
+  .dish-grid .reveal:nth-child(5){transition-delay:.32s;}
+  .dish-grid .reveal:nth-child(6){transition-delay:.4s;}
+  .testi-grid .reveal:nth-child(2){transition-delay:.1s;}
+  .testi-grid .reveal:nth-child(3){transition-delay:.2s;}
+
+  /* ---------- Thanh menu đổ bóng khi cuộn ---------- */
+  header{transition:box-shadow .3s ease, background .3s ease;}
+  header.scrolled{
+    box-shadow:0 8px 24px -12px rgba(36,31,27,0.25);
+  }
+
+  /* ---------- Hover mượt hơn cho thẻ đánh giá ---------- */
+  .testi-card{transition:transform .25s ease, background .25s ease, border-color .25s ease;}
+  .testi-card:hover{
+    transform:translateY(-4px);
+    background:rgba(250,246,234,0.1);
+    border-color:rgba(232,163,61,0.35);
+  }
+
+  /* ---------- Thở nhẹ ánh sáng đèn lồng trong hero ---------- */
+  .hero{
+    background-size:140% 140%, 140% 140%, 140% 140%, 100% 100%;
+    animation:heroGlow 10s ease-in-out infinite;
+  }
+  @keyframes heroGlow{
+    0%,100%{background-position:0% 0%, 100% 0%, 50% 100%, 0 0;}
+    50%{background-position:8% 8%, 92% 8%, 50% 92%, 0 0;}
+  }
+
+  /* ---------- Nút bấm hơi lún khi bấm, cảm giác thật hơn ---------- */
+  .btn:active{transform:scale(0.97);}
