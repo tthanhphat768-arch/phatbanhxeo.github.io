@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quán Bán Đồ ăn — Cơm nhà giữa lòng phố</title>
+<title>Quán Cô Sáu — Cơm nhà giữa lòng phố</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -13,13 +13,14 @@
 
 <header>
   <nav class="nav">
-    <div class="logo"><span class="dot"></span>Quán Bán Đồ ăn</div>
+    <div class="logo"><span class="dot"></span>Quán Cô Sáu</div>
     <div class="nav-links">
       <a href="#thuc-don">Thực đơn</a>
       <a href="#ve-chung-toi">Về quán</a>
       <a href="#danh-gia">Khách nói gì</a>
       <a href="#gio-mo-cua">Giờ &amp; địa chỉ</a>
-      <a href="dang-nhap.html">Đăng nhập / Đăng ký</a>
+      <a href="dang-nhap.html" id="nav-auth-link">Đăng nhập / Đăng ký</a>
+      <a href="#" id="nav-logout-link" style="display:none; color:rgba(36,31,27,0.55); font-weight:500;">Đăng xuất</a>
     </div>
     <a href="tel:0900000000" class="btn btn-primary">Đặt bàn ngay</a>
   </nav>
@@ -187,11 +188,11 @@
       </div>
       <div class="map-box">
         <div class="pin">📍</div>
-        <strong>211 Lũy Bán Bích</strong>
+        <strong>123 Đường Nguyễn Văn A, Gò Vấp</strong>
         <span>TP. Hồ Chí Minh · Cách chợ 2 phút đi bộ</span>
         <br>
         <strong style="margin-top:14px;">Đặt bàn / hỏi món</strong>
-        <span>0332419707 · tthanhphat768@gmail.com</span>
+        <span>0900 000 000 · quancosau@gmail.com</span>
       </div>
     </div>
   </div>
@@ -201,7 +202,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <div class="foot-logo">Quán Bán Đồ ăn</div>
+        <div class="foot-logo">Quán Cô Sáu</div>
         <p>Cơm nhà nấu mỗi ngày, ngay góc phố quen. Mở cửa từ 2013, phục vụ bằng cả tấm lòng.</p>
       </div>
       <div class="foot-col">
@@ -218,17 +219,46 @@
       </div>
       <div class="foot-col">
         <h4>Liên hệ</h4>
-        <a href="tel:0332419707">0332 419 707</a>
-        <a href="mailto:tthanhphat768@gmail.com">tthanhphat768@gmail.com</a>
-        <a href="#">211 Lũy Bán Bích, TP. Hồ Chí Minh</a>
+        <a href="tel:0900000000">0900 000 000</a>
+        <a href="mailto:quancosau@gmail.com">quancosau@gmail.com</a>
+        <a href="#">123 Nguyễn Văn A, Gò Vấp</a>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Quán Bán Đồ ăn. Mọi quyền được bảo lưu.</span>
+      <span>© 2026 Quán Cô Sáu. Mọi quyền được bảo lưu.</span>
       <span>Thiết kế cho bữa cơm nhà, không cho quảng cáo.</span>
     </div>
   </div>
 </footer>
+
+<script>
+  // Nếu đã "đăng nhập" (lưu tạm trong trình duyệt), hiện tên tài khoản + dòng đăng xuất riêng
+  (function(){
+    const authLink = document.getElementById('nav-auth-link');
+    const logoutLink = document.getElementById('nav-logout-link');
+    if(!authLink || !logoutLink) return;
+    const saved = localStorage.getItem('quanCoSauUser');
+    if(saved){
+      try{
+        const user = JSON.parse(saved);
+        if(user && user.name){
+          authLink.textContent = 'Xin chào, ' + user.name;
+          authLink.removeAttribute('href');
+          authLink.style.color = 'var(--chili)';
+          authLink.style.fontWeight = '700';
+          authLink.style.cursor = 'default';
+
+          logoutLink.style.display = 'inline';
+          logoutLink.addEventListener('click', function(e){
+            e.preventDefault();
+            localStorage.removeItem('quanCoSauUser');
+            window.location.reload();
+          });
+        }
+      }catch(err){}
+    }
+  })();
+</script>
 
 </body>
 </html>
