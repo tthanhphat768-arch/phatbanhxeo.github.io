@@ -155,6 +155,104 @@
     .auth-card{padding:28px 22px 26px;}
     .auth-title{font-size:22px;}
   }
+
+  /* ---------- Hiệu ứng thành công ---------- */
+  .success-overlay{
+    position:fixed;inset:0;z-index:100;
+    background:rgba(10,44,45,0.72);
+    backdrop-filter:blur(3px);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;pointer-events:none;
+    transition:opacity .35s ease;
+  }
+  .success-overlay.show{opacity:1;pointer-events:auto;}
+
+  .success-box{
+    background:#16302f;
+    border:1px solid rgba(232,163,61,0.4);
+    border-radius:14px;
+    padding:40px 36px 34px;
+    width:100%;max-width:340px;
+    text-align:center;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,0.6);
+    transform:translateY(14px) scale(0.96);
+    opacity:0;
+    transition:transform .4s cubic-bezier(.2,.9,.3,1.3), opacity .35s ease;
+  }
+  .success-overlay.show .success-box{
+    transform:translateY(0) scale(1);
+    opacity:1;
+  }
+
+  .success-ring-wrap{
+    position:relative;width:92px;height:92px;margin:0 auto 22px;
+  }
+  .success-glow{
+    position:absolute;inset:-14px;border-radius:50%;
+    background:radial-gradient(circle, rgba(232,163,61,0.45), transparent 70%);
+    opacity:0;
+    animation:glowPop .7s ease-out .15s forwards;
+  }
+  @keyframes glowPop{
+    0%{opacity:0;transform:scale(0.6);}
+    60%{opacity:1;}
+    100%{opacity:0.55;transform:scale(1);}
+  }
+  .success-check{position:relative;width:92px;height:92px;}
+  .success-check circle{
+    fill:none;stroke:var(--turmeric);stroke-width:4;
+    stroke-linecap:round;
+    stroke-dasharray:270;stroke-dashoffset:270;
+    transform-origin:center;transform:rotate(-90deg);
+    animation:circleDraw .55s ease-out forwards;
+  }
+  .success-check path{
+    fill:none;stroke:var(--turmeric);stroke-width:5;
+    stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:40;stroke-dashoffset:40;
+    animation:checkDraw .35s ease-out .5s forwards;
+  }
+  @keyframes circleDraw{ to{ stroke-dashoffset:0; } }
+  @keyframes checkDraw{ to{ stroke-dashoffset:0; } }
+
+  .success-title{
+    font-family:'Playfair Display',serif;font-weight:800;
+    font-size:21px;color:var(--rice);margin-bottom:8px;
+    opacity:0;animation:fadeUp .4s ease-out .55s forwards;
+  }
+  .success-msg{
+    font-size:13.5px;color:rgba(250,246,234,0.75);
+    margin-bottom:24px;line-height:1.55;
+    opacity:0;animation:fadeUp .4s ease-out .65s forwards;
+  }
+  .success-btn{
+    padding:11px 28px;border-radius:6px;border:none;
+    background:var(--turmeric);color:var(--night-deep);
+    font-weight:700;font-size:14px;cursor:pointer;
+    font-family:'Be Vietnam Pro',sans-serif;
+    opacity:0;animation:fadeUp .4s ease-out .75s forwards;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .success-btn:hover{transform:translateY(-1px);background:#f0b558;}
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(6px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  /* các đốm sáng nhỏ bay lên như đèn lồng, thêm phần sinh động */
+  .spark{
+    position:absolute;bottom:14px;
+    width:5px;height:5px;border-radius:50%;
+    background:var(--turmeric);
+    opacity:0;
+    animation:sparkFloat 1.1s ease-out forwards;
+  }
+  @keyframes sparkFloat{
+    0%{opacity:0;transform:translateY(0) scale(0.6);}
+    15%{opacity:1;}
+    100%{opacity:0;transform:translateY(-70px) scale(1);}
+  }
 </style>
 </head>
 <body>
@@ -230,6 +328,22 @@
       </p>
     </div>
   </div>
+
+  <!-- Popup hiệu ứng thành công -->
+  <div class="success-overlay" id="success-overlay">
+    <div class="success-box">
+      <div class="success-ring-wrap" id="spark-host">
+        <div class="success-glow"></div>
+        <svg class="success-check" viewBox="0 0 92 92">
+          <circle cx="46" cy="46" r="40"></circle>
+          <path d="M30 47 L41 58 L64 33"></path>
+        </svg>
+      </div>
+      <div class="success-title" id="success-title">Đăng nhập thành công!</div>
+      <div class="success-msg" id="success-msg">Chào mừng bạn quay lại Quán Cô Sáu.</div>
+      <button class="success-btn" id="success-btn">Tiếp tục</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -266,13 +380,63 @@
     }
   }
 
+  // ---------- Popup hiệu ứng thành công ----------
+  const overlay = document.getElementById('success-overlay');
+  const successTitle = document.getElementById('success-title');
+  const successMsg = document.getElementById('success-msg');
+  const successBtn = document.getElementById('success-btn');
+  const sparkHost = document.getElementById('spark-host');
+
+  const successCopy = {
+    vi:{
+      login:{ title:"Đăng nhập thành công!", msg:"Chào mừng bạn quay lại Quán Cô Sáu.", btn:"Tiếp tục" },
+      register:{ title:"Tạo tài khoản thành công!", msg:"Cảm ơn bạn đã đăng ký cùng Quán Cô Sáu.", btn:"Tiếp tục" }
+    },
+    en:{
+      login:{ title:"Login successful!", msg:"Welcome back to Quán Cô Sáu.", btn:"Continue" },
+      register:{ title:"Account created!", msg:"Thanks for signing up with Quán Cô Sáu.", btn:"Continue" }
+    }
+  };
+
+  function spawnSparks(){
+    sparkHost.querySelectorAll('.spark').forEach(s=>s.remove());
+    for(let i=0;i<10;i++){
+      const s = document.createElement('div');
+      s.className = 'spark';
+      const angle = (Math.random()-0.5)*70;
+      s.style.left = (44 + Math.random()*10 - 5) + 'px';
+      s.style.transform = `rotate(${angle}deg)`;
+      s.style.animationDelay = (Math.random()*0.25) + 's';
+      sparkHost.appendChild(s);
+    }
+  }
+
+  function showSuccess(kind){
+    const c = successCopy[currentLang][kind];
+    successTitle.textContent = c.title;
+    successMsg.textContent = c.msg;
+    successBtn.textContent = c.btn;
+    // reset animation bằng cách ép reflow
+    overlay.classList.remove('show');
+    void overlay.offsetWidth;
+    spawnSparks();
+    overlay.classList.add('show');
+  }
+
+  function hideSuccess(){
+    overlay.classList.remove('show');
+  }
+
+  successBtn.addEventListener('click', hideSuccess);
+  overlay.addEventListener('click', (e)=>{
+    if(e.target === overlay) hideSuccess();
+  });
+
   // Chặn submit thật (đây là bản giao diện demo, chưa nối máy chủ)
   document.querySelectorAll('form').forEach(f=>{
     f.addEventListener('submit', e=>{
       e.preventDefault();
-      alert(currentLang === 'vi'
-        ? 'Đây là giao diện demo — chưa kết nối máy chủ để lưu tài khoản.'
-        : 'This is a demo interface — not yet connected to a server.');
+      showSuccess(f.dataset.form === 'register' ? 'register' : 'login');
     });
   });
 
@@ -371,6 +535,15 @@
       ? t.altRegisterLink : t.altLoginLink;
 
     langButtons.forEach(b => b.classList.toggle('active', b.dataset.langBtn === lang));
+
+    // nếu popup thành công đang mở, cập nhật lại chữ theo ngôn ngữ mới
+    if(overlay && overlay.classList.contains('show')){
+      const activeKind = document.querySelector('.auth-tab.active').dataset.tab === 'register' ? 'register' : 'login';
+      const c = successCopy[lang][activeKind];
+      successTitle.textContent = c.title;
+      successMsg.textContent = c.msg;
+      successBtn.textContent = c.btn;
+    }
   }
 
   langButtons.forEach(btn=>{
