@@ -255,4 +255,8 @@
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important;}
   }
-
+/* ---------- Link Đăng nhập / Đăng ký nổi bật trong menu ---------- */
+.nav-links a[href="dang-nhap.html"]{
+  color: var(--chili);
+  font-weight: 700;
+}
