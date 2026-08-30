@@ -237,7 +237,22 @@
   }
 
   @media(max-width:860px){
-    .nav-links{display:none;}
+    .nav-links{
+      position:absolute;top:100%;left:0;right:0;
+      display:none;
+      flex-direction:column;
+      gap:0;
+      background:var(--rice);
+      border-top:1px solid rgba(36,31,27,0.1);
+      box-shadow:0 12px 24px -12px rgba(36,31,27,0.25);
+      padding:8px 28px 18px;
+    }
+    .nav-links.open{display:flex;}
+    .nav-links a{padding:12px 0;border-bottom:1px solid rgba(36,31,27,0.08);}
+    .nav-links a:last-child{border-bottom:none;}
+    .nav{position:relative;flex-wrap:wrap;}
+    .menu-toggle{display:block;}
+    .nav .btn-primary{display:none;}
     .hero .wrap{grid-template-columns:1fr;}
     .about .wrap{grid-template-columns:1fr;}
     .hours .wrap{grid-template-columns:1fr;}
