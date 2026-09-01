@@ -584,3 +584,44 @@ footer {
   border-color: var(--chili);
   color: var(--chili);
 }
+/* Bật hiệu ứng cuộn mượt cho toàn bộ trang */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Kiểu dáng cho nút cuộn xuống ở Hero */
+.scroll-down-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 40px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  grid-column: 1 / -1; /* Căn giữa dưới 2 cột của hero */
+  justify-self: center;
+}
+
+.scroll-down-btn:hover {
+  color: var(--amber);
+}
+
+.scroll-down-btn svg {
+  animation: bounceDown 1.8s infinite;
+}
+
+/* Hiệu ứng nhấp nháy chuyển động lên xuống */
+@keyframes bounceDown {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(8px);
+  }
+  60% {
+    transform: translateY(4px);
+  }
+}
