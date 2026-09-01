@@ -67,3 +67,19 @@
     link.addEventListener('click', ()=> navLinks.classList.remove('open'));
   });
 })();
+// Cuộn mượt khi nhấn vào các liên kết điều hướng (Anchor links)
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      e.preventDefault();
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  });
+});
