@@ -526,4 +526,61 @@ footer {
   .menu-toggle {
     display: block;
   }
+}/* Đổ bóng mượt & sang hơn cho card */
+.dish-card, .testi-card, .map-box {
+  box-shadow: 0 10px 30px -5px rgba(28, 53, 45, 0.08), 
+              0 4px 10px -2px rgba(28, 53, 45, 0.04);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hiệu ứng nổi nhẹ khi rê chuột vào món ăn */
+.dish-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px -10px rgba(28, 53, 45, 0.12), 
+              0 8px 15px -3px rgba(28, 53, 45, 0.06);
+}
+/* Hiệu ứng sóng lan tỏa cho nút điện thoại */
+.phone-float {
+  position: relative;
+}
+
+.phone-float::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 50%;
+  background-color: #25d366;
+  z-index: -1;
+  animation: pulse-wave 2s infinite;
+}
+
+@keyframes pulse-wave {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.dish-foot .tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: rgba(200, 75, 49, 0.1);
+  color: var(--chili);
+  padding: 4px 12px;
+  border-radius: 50px;
+  border: 1px solid rgba(200, 75, 49, 0.2);
+}
+.tab {
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+.tab:hover:not(.active) {
+  background-color: var(--white);
+  border-color: var(--chili);
+  color: var(--chili);
 }
